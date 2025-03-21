@@ -1,6 +1,9 @@
 package com.example.employee_assessment_system.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +14,7 @@ public class Assessment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer assessmentID;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "employeeID", nullable = false)
     private Employee employee;
@@ -22,6 +26,7 @@ public class Assessment {
     private LocalDateTime assessmentDate;
     private String assessmentType;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "assessment")
     private List<AssessmentHistory> assessmentHistories;
 

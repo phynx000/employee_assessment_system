@@ -2,20 +2,23 @@ package com.example.employee_assessment_system.controller;
 
 import org.springframework.web.bind.annotation.*;
 
-@RestController()
+import com.example.employee_assessment_system.dto.AssessmentDTO;
+import com.example.employee_assessment_system.entity.Assessment;
+import com.example.employee_assessment_system.services.AssessmentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/assessments")
 public class AssessmentController {
 
+    @Autowired
+    private AssessmentService assessmentService;
+
     @PostMapping
-    public void createAssessment() {}
-
-    @GetMapping
-    public String getAssessment() {
-        return "Hello World";
+    public ResponseEntity<Assessment> createAssessment(@RequestBody AssessmentDTO assessmentDTO) {
+        Assessment assessment = assessmentService.createAssessment(assessmentDTO);
+        return ResponseEntity.ok(assessment);
     }
-    
-    @PutMapping
-    public void updateAssessment() {}
-
-    @DeleteMapping
-    public void deleteAssessment() {}
 }

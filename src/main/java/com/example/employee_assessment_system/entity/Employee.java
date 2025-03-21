@@ -1,5 +1,6 @@
 package com.example.employee_assessment_system.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class Employee {
     @JoinColumn(name = "supervisorID", nullable = false)
     private Supervisor supervisor;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "employee")
     private List<Assessment> assessments;
 
