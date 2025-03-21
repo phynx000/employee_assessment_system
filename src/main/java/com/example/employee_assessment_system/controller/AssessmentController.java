@@ -1,7 +1,10 @@
 package com.example.employee_assessment_system.controller;
 
+import com.example.employee_assessment_system.dto.ApiResponse;
 import com.example.employee_assessment_system.service.AssessmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +25,7 @@ public class AssessmentController {
     public void updateAssessment() {}
 
     @DeleteMapping("/{id}")
-    public String deleteAssessment(@PathVariable int id) {
-        return assessmentService.deleteAssessment(id);
+    public ResponseEntity<ApiResponse> deleteAssessment(@PathVariable int id) {
+        return new ResponseEntity<ApiResponse>(assessmentService.deleteAssessment(id), HttpStatus.OK);
     }
 }
