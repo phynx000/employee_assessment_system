@@ -28,7 +28,7 @@ public class User {
     @Column(nullable = false)
     private Role role = Role.EMPLOYEE;
 
-    @Column(name = "is_active")
+    @Column(name = "is_active", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean isActive = true;
 
     public enum Role {
