@@ -1,5 +1,6 @@
 package com.example.employee_assessment_system.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,6 +9,7 @@ public class AssessmentHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer assessmentHistoryID;
 
+    @JsonBackReference // Phía bị động của mối quan hệ
     @ManyToOne
     @JoinColumn(name = "assessmentID", nullable = false)
     private Assessment assessment;

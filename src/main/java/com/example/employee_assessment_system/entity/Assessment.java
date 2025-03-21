@@ -1,8 +1,6 @@
 package com.example.employee_assessment_system.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +12,7 @@ public class Assessment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer assessmentID;
 
-    @JsonIgnore
+    @JsonBackReference // Phía bị động của mối quan hệ
     @ManyToOne
     @JoinColumn(name = "employeeID", nullable = false)
     private Employee employee;
@@ -26,7 +24,7 @@ public class Assessment {
     private LocalDateTime assessmentDate;
     private String assessmentType;
 
-    @JsonBackReference
+    @JsonManagedReference // Phía chủ động của mối quan hệ
     @OneToMany(mappedBy = "assessment")
     private List<AssessmentHistory> assessmentHistories;
 

@@ -1,6 +1,6 @@
 package com.example.employee_assessment_system.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class Employee {
     @JoinColumn(name = "supervisorID", nullable = false)
     private Supervisor supervisor;
 
-    @JsonBackReference
+    @JsonManagedReference // Phía chủ động của mối quan hệ
     @OneToMany(mappedBy = "employee")
     private List<Assessment> assessments;
 
