@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @Data
 @NoArgsConstructor
-
 @Builder
 
 public class User {
