@@ -1,6 +1,7 @@
 package com.example.employee_assessment_system.service;
 
 import com.example.employee_assessment_system.dto.request.EvaluationCreateDTO;
+import com.example.employee_assessment_system.dto.request.ScoreCreateDTO;
 import com.example.employee_assessment_system.dto.response.EvaluationDTO;
 import com.example.employee_assessment_system.entity.Criteria;
 import com.example.employee_assessment_system.entity.Evaluation;
