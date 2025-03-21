@@ -1,6 +1,8 @@
 package com.example.employee_assessment_system.controller;
 
 import com.example.employee_assessment_system.dto.UserRequest;
+import com.example.employee_assessment_system.dto.request.UserCreateDTO;
+import com.example.employee_assessment_system.dto.response.UserDTO;
 import com.example.employee_assessment_system.entity.User;
 import com.example.employee_assessment_system.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +18,8 @@ public class UserController {
     }
 
     @PostMapping("/createUser")
-    public ResponseEntity<User> createUser(@RequestBody UserRequest request) {
-        User createdUser = userService.createUser(request);
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserCreateDTO request) {
+        UserDTO createdUser = userService.createUser(request);
         return ResponseEntity.ok(createdUser);
     }
 }
