@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "criteria")
+@Table(name = "evaluation_templates")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Criteria {
+public class EvaluationTemplate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,7 +22,6 @@ public class Criteria {
 
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "template_id", nullable = false)
-    private EvaluationTemplate template;
+    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Criteria> criteria = new ArrayList<>();
 }

@@ -1,10 +1,7 @@
 package com.example.employee_assessment_system.service;
 
 import com.example.employee_assessment_system.dto.ApiResponse;
-import com.example.employee_assessment_system.dto.AssessmentDTO;
 import com.example.employee_assessment_system.entity.*;
-import com.example.employee_assessment_system.repository.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
