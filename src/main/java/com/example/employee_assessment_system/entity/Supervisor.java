@@ -4,29 +4,28 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class Employee {
+public class Supervisor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer employeeID;
+    private Integer supervisorID;
 
     private String name;
     private String position;
     private String department;
 
-    @ManyToOne
-    @JoinColumn(name = "supervisorID", nullable = false)
-    private Supervisor supervisor;
+    @OneToMany(mappedBy = "supervisor")
+    private List<Employee> employees;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "supervisor")
     private List<Assessment> assessments;
 
     // Getters and Setters
-    public Integer getEmployeeID() {
-        return employeeID;
+    public Integer getSupervisorID() {
+        return supervisorID;
     }
 
-    public void setEmployeeID(Integer employeeID) {
-        this.employeeID = employeeID;
+    public void setSupervisorID(Integer supervisorID) {
+        this.supervisorID = supervisorID;
     }
 
     public String getName() {
@@ -53,12 +52,12 @@ public class Employee {
         this.department = department;
     }
 
-    public Supervisor getSupervisor() {
-        return supervisor;
+    public List<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setSupervisor(Supervisor supervisor) {
-        this.supervisor = supervisor;
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 
     public List<Assessment> getAssessments() {
