@@ -7,12 +7,13 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     @Mapping(target = "password", ignore = true) // Don't expose password in DTOs
     UserDTO toDTO(User user);
 
+    @Mapping(target = "id", ignore = true)
     User createUserDTOToUser(UserCreateDTO userDTO);
 
     List<UserDTO> toDTOList(List<User> users);
