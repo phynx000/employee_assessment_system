@@ -6,21 +6,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "criteria")
+@Table(name = "scores")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Criteria {
+public class Score {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
-    private String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "evaluation_id", nullable = false)
+    private Evaluation evaluation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "template_id", nullable = false)
-    private EvaluationTemplate template;
+    @JoinColumn(name = "criteria_id", nullable = false)
+    private Criteria criteria;
+
+    @Column(nullable = false)
+    private Integer score;
+
+    private String comment;
 }
