@@ -39,7 +39,7 @@ public class CriteriaController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('SUPERVISOR', 'ADMIN')")
+//    @PreAuthorize("hasAnyRole('SUPERVISOR', 'ADMIN')")
     public ResponseEntity<CriteriaDTO> createCriteria(@Valid @RequestBody CriteriaCreateDTO criteriaCreateDTO) {
         CriteriaDTO created = criteriaService.createCriteria(criteriaCreateDTO);
         return new ResponseEntity<>(created, HttpStatus.CREATED);

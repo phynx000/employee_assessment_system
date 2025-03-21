@@ -24,7 +24,7 @@ public class EvaluationController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('SUPERVISOR', 'ADMIN')")
+//    @PreAuthorize("hasAnyRole('SUPERVISOR', 'ADMIN')")
     public ResponseEntity<List<EvaluationDTO>> getAllEvaluations() {
         return ResponseEntity.ok(evaluationService.getAllEvaluations());
     }
@@ -35,13 +35,13 @@ public class EvaluationController {
     }
 
     @GetMapping("/employee/{employeeId}")
-    @PreAuthorize("hasAnyRole('SUPERVISOR', 'ADMIN') or @userSecurity.isSameUser(#employeeId)")
+//    @PreAuthorize("hasAnyRole('SUPERVISOR', 'ADMIN') or @userSecurity.isSameUser(#employeeId)")
     public ResponseEntity<List<EvaluationDTO>> getEvaluationsByEmployee(@PathVariable Long employeeId) {
         return ResponseEntity.ok(evaluationService.getEvaluationsByEmployee(employeeId));
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('SUPERVISOR', 'ADMIN')")
+//    @PreAuthorize("hasAnyRole('SUPERVISOR', 'ADMIN')")
     public ResponseEntity<EvaluationDTO> createEvaluation(@Valid @RequestBody EvaluationCreateDTO evaluationCreateDTO) {
         EvaluationDTO created = evaluationService.createEvaluation(evaluationCreateDTO);
         return new ResponseEntity<>(created, HttpStatus.CREATED);

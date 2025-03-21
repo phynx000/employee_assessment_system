@@ -74,6 +74,7 @@ public class UserService {
         return userMapper.toDTO(userRepository.save(user));
     }
     public ApiResponse deleteUser(Long id) {
+        if (!userRepository.findById(id).isPresent()) throw new EntityNotFoundException("Not found user");
         userRepository.deleteById(id);
         return new ApiResponse(false,"Deleted user successfully",null);
     }
