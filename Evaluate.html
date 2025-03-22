@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="pageTitle">Đánh giá Phòng Ban</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="d-flex justify-content-center align-items-center vh-100 bg-light"
+  >
+    <div class="container">
+      <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4" id="departmentTitle">
+          Đánh giá Phòng Ban
+        </h2>
+        <h5 class="text-center mb-4">
+          Ngày:
+          <input
+            type="date"
+            class="form-control w-50 mx-auto"
+            id="currentDate"
+          />
+        </h5>
+        <form id="evaluationForm">
+          <table class="table table-bordered text-center">
+            <thead>
+              <tr>
+                <th>Nhân viên</th>
+                <th>Kỹ năng (0-10)</th>
+                <th>Thái độ (0-10)</th>
+                <th>Hiệu suất (0-10)</th>
+                <th>Đóng góp (0-10)</th>
+                <th>Tổng điểm</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Nhân viên 1</td>
+                <td><select class="form-control score"></select></td>
+                <td><select class="form-control score"></select></td>
+                <td><select class="form-control score"></select></td>
+                <td><select class="form-control score"></select></td>
+                <td class="total-score">0</td>
+              </tr>
+              <tr>
+                <td>Nhân viên 2</td>
+                <td><select class="form-control score"></select></td>
+                <td><select class="form-control score"></select></td>
+                <td><select class="form-control score"></select></td>
+                <td><select class="form-control score"></select></td>
+                <td class="total-score">0</td>
+              </tr>
+            </tbody>
+          </table>
+          <div id="error-message" class="text-danger text-center mb-3"></div>
+          <button type="submit" class="btn btn-primary w-100">
+            Gửi đánh giá
+          </button>
+          <a href="index.html" class="btn btn-secondary w-100 mt-2">Quay lại</a>
+          <a href="history.html" class="btn btn-info w-100 mt-2">Xem Lịch Sử</a>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Lấy ngày hiện tại
+        document.getElementById("currentDate").value = new Date()
+          .toISOString()
+          .split("T")[0];
+
+        // Lấy tên phòng ban từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const department = urlParams.get("department");
+
+        // Map mã phòng ban thành tên đầy đủ
+        const departmentNames = {
+          HanhChinh: "Hành Chính",
+          NhanSu: "Nhân Sự",
+          HauCan: "Hậu Cần",
+          KeToan: "Kế Toán",
+          DuAn: "Dự Án",
+        };
+
+        if (department && departmentNames[department]) {
+          document.getElementById(
+            "pageTitle"
+          ).textContent = `Đánh giá phòng ${departmentNames[department]}`;
+          document.getElementById(
+            "departmentTitle"
+          ).textContent = `Đánh giá phòng ${departmentNames[department]}`;
+        }
+
+        // Tạo danh sách điểm số (0-10) cho các select
+        function generateOptions(selectElements) {
+          let options = "";
+          for (let i = 0; i <= 10; i++) {
+            options += `<option value="${i}">${i}</option>`;
+          }
+          selectElements.forEach((select) => {
+            select.innerHTML = options;
+          });
+        }
+
+        const scores = document.querySelectorAll(".score");
+        generateOptions(scores);
+
+        // Cập nhật tổng điểm khi thay đổi giá trị
+        scores.forEach((select) => {
+          select.addEventListener("change", updateTotal);
+        });
+
+        function updateTotal() {
+          const row = this.closest("tr");
+          let total = 0;
+          row.querySelectorAll(".score").forEach((select) => {
+            total += parseInt(select.value) || 0;
+          });
+          row.querySelector(".total-score").textContent = total;
+        }
+
+        // Xử lý gửi form
+        document
+          .getElementById("evaluationForm")
+          .addEventListener("submit", function (event) {
+            let valid = true;
+            let errorMessage = "";
+
+            scores.forEach((select) => {
+              let value = parseInt(select.value);
+              if (isNaN(value) || value < 0 || value > 10) {
+                valid = false;
+                errorMessage = "Vui lòng chọn số từ 0 đến 10 cho tất cả các ô!";
+              }
+            });
+
+            if (!valid) {
+              event.preventDefault();
+              document.getElementById("error-message").textContent =
+                errorMessage;
+            } else {
+              event.preventDefault();
+              alert("Gửi đánh giá thành công!");
+            }
+          });
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

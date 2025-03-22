@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch sử Đánh giá</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      th {
+        cursor: pointer;
+      }
+      tbody tr:hover {
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
+  <body
+    class="d-flex justify-content-center align-items-center vh-100 bg-light"
+  >
+    <div class="container">
+      <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4">Lịch sử Đánh giá</h2>
+
+        <!-- Bộ lọc -->
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label for="departmentFilter" class="form-label"
+              >Chọn phòng ban:</label
+            >
+            <select id="departmentFilter" class="form-select">
+              <option value="all">Tất cả</option>
+              <option value="Phòng Hành chính">Phòng Hành chính</option>
+              <option value="Phòng Nhân sự">Phòng Nhân sự</option>
+              <option value="Phòng Hậu cần">Phòng Hậu cần</option>
+              <option value="Phòng Kế toán">Phòng Kế toán</option>
+              <option value="Phòng Dự án">Phòng Dự án</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="dateFilter" class="form-label">Chọn ngày:</label>
+            <input type="date" id="dateFilter" class="form-control" />
+          </div>
+          <div class="col-md-4">
+            <label for="nameFilter" class="form-label">Tìm theo tên:</label>
+            <input
+              type="text"
+              id="nameFilter"
+              class="form-control"
+              placeholder="Nhập tên nhân viên"
+            />
+          </div>
+          <div class="col-md-4 mt-2">
+            <label for="scoreFilter" class="form-label">Lọc theo điểm:</label>
+            <input
+              type="number"
+              id="scoreFilter"
+              class="form-control"
+              placeholder="Nhập điểm tối thiểu"
+            />
+          </div>
+        </div>
+
+        <table
+          class="table table-bordered text-center table-striped table-hover"
+        >
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">Ngày ▲</th>
+              <th onclick="sortTable(1)">Nhân viên ▲</th>
+              <th onclick="sortTable(2)">Phòng ban ▲</th>
+              <th>Kỹ năng</th>
+              <th>Thái độ</th>
+              <th>Hiệu suất</th>
+              <th>Đóng góp</th>
+              <th onclick="sortTable(7)">Tổng điểm ▲</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="historyTable"></tbody>
+        </table>
+
+        <nav>
+          <ul class="pagination justify-content-center" id="pagination"></ul>
+        </nav>
+
+        <a href="index.html" class="btn btn-secondary w-100 mt-2">Quay lại</a>
+      </div>
+    </div>
+
+    <script>
+      let historyData =
+        JSON.parse(localStorage.getItem("evaluationHistory")) || [];
+      let currentPage = 1;
+      const rowsPerPage = 5;
+
+      function displayData() {
+        const historyTable = document.getElementById("historyTable");
+        historyTable.innerHTML = "";
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const pageData = historyData.slice(start, end);
+
+        pageData.forEach((record, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${new Date(record.date).toLocaleDateString("vi-VN")}</td>
+            <td>${record.employee}</td>
+            <td>${record.department}</td>
+            <td>${record.skills}</td>
+            <td>${record.attitude}</td>
+            <td>${record.performance}</td>
+            <td>${record.contribution}</td>
+            <td>${record.total}</td>
+            <td><button class="btn btn-sm btn-danger" onclick="confirmDelete(${index})">Xóa</button></td>
+          `;
+          historyTable.appendChild(row);
+        });
+        updatePagination();
+      }
+
+      function confirmDelete(index) {
+        if (confirm("Bạn có chắc chắn muốn xóa không?")) {
+          historyData.splice(index, 1);
+          localStorage.setItem(
+            "evaluationHistory",
+            JSON.stringify(historyData)
+          );
+          displayData();
+          alert("Xóa thành công!");
+        }
+      }
+
+      function sortTable(columnIndex) {
+        historyData.sort((a, b) => {
+          let valueA = Object.values(a)[columnIndex];
+          let valueB = Object.values(b)[columnIndex];
+          return typeof valueA === "number"
+            ? valueA - valueB
+            : valueA.localeCompare(valueB);
+        });
+        displayData();
+      }
+
+      function updatePagination() {
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+        const totalPages = Math.ceil(historyData.length / rowsPerPage);
+        for (let i = 1; i <= totalPages; i++) {
+          let pageItem = document.createElement("li");
+          pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
+          pageItem.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+          pagination.appendChild(pageItem);
+        }
+      }
+
+      function changePage(page) {
+        currentPage = page;
+        displayData();
+      }
+
+      displayData();
+    </script>
+  </body>
+</html>
