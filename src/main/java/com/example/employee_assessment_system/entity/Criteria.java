@@ -19,8 +19,4 @@ public class Criteria {
     private String name;
 
     private String description;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "template_id", nullable = false)
-    private EvaluationTemplate template;
 }
